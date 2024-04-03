@@ -14,12 +14,6 @@ pipeline {
                 sh 'docker build -t ptt-project-img ./' // Replace with your image name
             }
         }
-        stage('Run Tests (Optional)') {
-            steps {
-                // Add commands to run your Django tests here inside the container
-                // Example: docker run your-django-app-image python manage.py test
-            }
-        }
     }
 }
 
