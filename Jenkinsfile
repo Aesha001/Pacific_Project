@@ -11,7 +11,7 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                sh 'sudo docker build -t ptt-project-img . ' // Replace with your image name
+                sh 'docker build -t ptt-project-img . ' // Replace with your image name
             }
         }
     }
