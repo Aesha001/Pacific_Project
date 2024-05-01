@@ -5,22 +5,23 @@ pipeline {
             steps {
                 script {
                     // Get the current branch name
-                    def currentBranch = 'develop'
-                    // Get the branch name from the Jenkinsfile path
-                     def pipelineBranch = BRANCH_NAME
+                    def currentBranch = scm.branches[0].name
 
-                    // Compare branch names
-                    if (currentBranch == pipelineBranch) {
-                        // Checkout code only if branch names match
-                        git branch: currentBranch, 
-                            credentialsId: 'git-cred',
-                            url: 'https://github.com/Aesha001/Pacific_Project'
-                    } else {
-                        error "Jenkinsfile is not in the same branch as the Jenkins pipeline."
+                    // Check if the Jenkinsfile branch (develop) matches the build branch
+                    if (currentBranch != 'develop') {
+                        error "Branch name mismatch! Build branch is '$currentBranch' but Jenkinsfile branch is 'develop'."
+                        // Stop further execution if branch names don't match
+                        return
                     }
+                    
+                    // Checkout code since branch names match (assuming 'develop')
+                    git branch: 'develop', // Assuming your Jenkinsfile is on 'develop' branch
+                        credentialsId: 'git-cred',
+                        url: 'https://github.com/Aesha001/Pacific_Project'
                 }
             }
         }
+        // Add your other pipeline stages here (e.g., Get Approval, Build Docker Image)
         stage('Get Approval') {
             steps {
                 input(message: 'Please approve this build.', submitter: 'admin')
