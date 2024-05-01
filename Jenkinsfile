@@ -8,7 +8,7 @@ pipeline {
                     def currentBranch = scm.branches[0].name
 
                     // Check if the Jenkinsfile branch (master) matches the build branch
-                    if (currentBranch != 'master') {
+                    if (currentBranch != '*/master') {
                         error "Branch name mismatch! Build branch is '$currentBranch' but Jenkinsfile branch is 'master'."
                         // Stop further execution if branch names don't match
                         return
@@ -24,7 +24,7 @@ pipeline {
         // Add your other pipeline stages here (e.g., Get Approval, Build Docker Image)
         stage('Get Approval') {
             steps {
-                input(message: 'Please approve this build.', submitter: 'admin')
+                input(message: 'Please approve this build.', submitter: 'admin','divyesh')
             }
         }
         stage('Build Docker Image') {
