@@ -5,7 +5,7 @@ pipeline {
             steps {
                 script {
                     // Get the current branch name
-                    def currentBranch = 'master'
+                    def currentBranch = 'develop'
                     // Get the branch name from the Jenkinsfile path
                      def pipelineBranch = BRANCH_NAME
 
