@@ -8,6 +8,11 @@ pipeline {
                    url: 'https://github.com/Aesha001/Pacific_Project'
             }
         }
+        stage('Get Approval') {
+            steps {
+                input('Please approve this.....')
+            }
+        }
         stage('Build Docker Image') {
             steps {
                 script {
@@ -15,5 +20,6 @@ pipeline {
                 }
             }
         }
+   
     }
 }
