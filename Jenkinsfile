@@ -6,6 +6,7 @@ pipeline {
                 script {
                     // Get the current branch name
                     def currentBranch = scm.branches[0].name
+                    currentBranch = currentBranch.substring(currentBranch.lastIndexOf('/') + 1)
 
                     // Check if the Jenkinsfile branch (master) matches the build branch
                     if (currentBranch != 'master') {
