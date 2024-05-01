@@ -5,10 +5,10 @@ pipeline {
             steps {
                 script {
                     // Get the current branch name
-                    def currentBranch = scm.branches[0].name
+                    def currentBranch = scm.branches[2].name
 
                     // Check if the Jenkinsfile branch (master) matches the build branch
-                    if (currentBranch != '*/master') {
+                    if (currentBranch != 'master') {
                         error "Branch name mismatch! Build branch is '$currentBranch' but Jenkinsfile branch is 'master'."
                         // Stop further execution if branch names don't match
                         return
