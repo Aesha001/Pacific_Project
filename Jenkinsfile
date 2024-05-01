@@ -24,7 +24,7 @@ pipeline {
         // Add your other pipeline stages here (e.g., Get Approval, Build Docker Image)
         stage('Get Approval') {
             steps {
-                input(message: 'Please approve this build.', submitter: 'admin','divyesh')
+                input(message: 'Please approve this build.', submitter: 'admin')
             }
         }
         stage('Build Docker Image') {
