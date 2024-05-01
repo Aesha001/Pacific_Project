@@ -5,15 +5,20 @@ pipeline {
             steps {
                 script {
                     // Get the current branch name
-                    def currentBranch = env.BRANCH_NAME
+                    def currentBranch = scm.branches[0].name
                     // Get the branch name from the Jenkinsfile path
-                    def jenkinsfileBranch = getCurrentJenkinsfileBranch(env.JOB_NAME)
+                    def jenkinsfileBranch = script {
+                        return env.JOB_NAME.tokenize('/')[1]
+                    }
                     // Compare branch names
                     if (currentBranch == jenkinsfileBranch) {
                         // Checkout code only if branch names match
-                        checkout scm
+                        git branch: currentBranch, 
+                            credentialsId: 'git-cred',
+                            url: 'https://github.com/Aesha001/Pacific_Project'
+                        // Add your deployment logic here (e.g., sh 'deploy.sh')
                     } else {
-                        error "Jenkinsfile is not in the same branch as the Jenkins pipeline. Jenkinsfile branch: ${jenkinsfileBranch}, Current branch: ${currentBranch}"
+                        error "Jenkinsfile is not in the same branch as the Jenkins pipeline."
                     }
                 }
             }
@@ -31,10 +36,4 @@ pipeline {
             }
         }
     }
-}
-
-def getCurrentJenkinsfileBranch(jobName) {
-    // Assuming Jenkinsfile path is like 'folder/branch/Jenkinsfile'
-    def parts = jobName.split('/')
-    return parts.size() > 1 ? parts[-2] : 'master' // Assuming 'master' as default branch if Jenkinsfile is at the root
 }
