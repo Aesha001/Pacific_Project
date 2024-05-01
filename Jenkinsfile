@@ -1,13 +1,33 @@
 pipeline {
     agent any
     stages {
+       pipeline {
+    agent any
+    stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'master',
-                   credentialsId: 'git-cred',
-                   url: 'https://github.com/Aesha001/Pacific_Project'
+                script {
+                    // Get the current branch name
+                    def currentBranch = scm.branches[0].name
+
+                    // Check if the Jenkinsfile branch (master) matches the build branch
+                    if (currentBranch != 'master') {
+                        error "Branch name mismatch! Build branch is '$currentBranch' but Jenkinsfile branch is 'master'."
+                        // Alternatively, you can return here to stop further execution:
+                        // return
+                    }
+                    
+                    // Checkout code since branch names match (assuming 'master')
+                    git branch: currentBranch, 
+                        credentialsId: 'git-cred',
+                        url: 'https://github.com/Aesha001/Pacific_Project'
+                }
             }
         }
+        // Add your other pipeline stages here (e.g., Get Approval, Build Docker Image)
+    }
+}
+
         stage('Get Approval') {
             steps {
                 input('Please approve this.....')
