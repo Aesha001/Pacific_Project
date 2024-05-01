@@ -6,16 +6,17 @@ pipeline {
                 script {
                     // Get the current branch name
                     def currentBranch = scm.branches[0].name
+                    currentBranch = currentBranch.substring(currentBranch.lastIndexOf('/') + 1)
 
-                    // Check if the Jenkinsfile branch (master) matches the build branch
-                    if (currentBranch != 'master') {
-                        error "Branch name mismatch! Build branch is '$currentBranch' but Jenkinsfile branch is 'master'."
+                    // Check if the Jenkinsfile branch (develop) matches the build branch
+                    if (currentBranch != 'develop') {
+                        error "Branch name mismatch! Build branch is '$currentBranch' but Jenkinsfile branch is 'develop'."
                         // Stop further execution if branch names don't match
                         return
                     }
                     
-                    // Checkout code since branch names match (assuming 'master')
-                    git branch: 'master', // Assuming your Jenkinsfile is on 'master' branch
+                    // Checkout code since branch names match (assuming 'develop')
+                    git branch: 'develop', // Assuming your Jenkinsfile is on 'develop' branch
                         credentialsId: 'git-cred',
                         url: 'https://github.com/Aesha001/Pacific_Project'
                 }
