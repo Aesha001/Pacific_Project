@@ -15,5 +15,16 @@ pipeline {
                 }
             }
         }
+  stage('Deploy Container') {
+            steps {
+                script {
+                    // Run the Docker container from the built image
+                    def container = docker.run("-d -p 8000:8000 --name pacific-container ptt-project-img")
+
+                    // Output container ID for reference
+                    echo "Container ID: ${container.id}"
+                }
+            }
+        }
     }
 }
